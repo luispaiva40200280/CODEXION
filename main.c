@@ -6,15 +6,15 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 22:26:09 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/07/06 03:30:41 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/07/06 22:29:18 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "codexion.h" 
 
 int	main(int ac, char **av)
 {
-	t_node *rules;
-	
-	rules = ft_parser(&av);
+	t_node	*rules;
+
+	rules = ft_parser(av, rules);
 	return (0);	
 }
