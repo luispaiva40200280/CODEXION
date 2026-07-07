@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 17:58:08 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/07/07 00:02:17 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/07/08 00:24:28 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 # define CODEXION_H
 
 /*Includes */
-#include <stdlib.h>
-#include <string.h>
+# include <stdlib.h>
+# include <string.h>
+# include <stdio.h>
+
 /*STRUCTERS*/
 typedef struct t_node
 {
@@ -27,10 +29,9 @@ typedef struct t_node
 	int	number_of_compiles_required;
 	int	dongle_cooldown;
 	int	scheduler;
-	struct s_node	*node;
-}			t_node
+}		t_node;
 
 /*Prototipes*/
-t_node	ft_parser(char **av);
+int	ft_parser(char **av, t_node *rules);
 
-# endif 
+#endif
