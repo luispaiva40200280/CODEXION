@@ -19,7 +19,11 @@
 # include <stdio.h>
 
 /*STRUCTERS*/
-typedef struct t_node
+typedef struct s_dongle t_dongle;
+
+typedef struct s_coder t_coder;
+
+typedef struct t_data
 {
 	int	number_of_coders;
 	int	time_to_burnout;
@@ -29,9 +33,18 @@ typedef struct t_node
 	int	number_of_compiles_required;
 	int	dongle_cooldown;
 	int	scheduler;
-}		t_node;
+}		t_data;
 
+typedef struct s_coder
+{
+	int	val;
+}	t_coder;
+
+typedef struct s_dongle
+{
+	int	data;
+}	t_dongle;
 /*Prototipes*/
-int	ft_parser(char **av, t_node *rules);
+int	ft_parser(char **av, t_data *rules);
 
 #endif
