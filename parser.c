@@ -12,7 +12,7 @@
 
 #include "codexion.h"
 
-static int	ft_check_errors(t_node	*rules);
+static int	ft_check_errors(t_data	*rules);
 
 static int	check_scheduler(char *str)
 {
@@ -23,20 +23,20 @@ static int	check_scheduler(char *str)
 	return (-1);
 }
 
-int	ft_parser(char **av, t_node *rules)
+int	ft_parser(char **av, t_data *rules)
 {
 	rules->number_of_coders = atoi(av[1]);
-	rules->time_to_burnout = atoi(av[2]);
-	rules->time_to_compile = atoi(av[3]);
-	rules->time_to_debug = atoi(av[4]);
-	rules->time_to_refactor = atoi(av[5]);
+	rules->time_to_burnout = (long long)atoi(av[2]);
+	rules->time_to_compile = (long long)atoi(av[3]);
+	rules->time_to_debug = (long long)atoi(av[4]);
+	rules->time_to_refactor = (long long)atoi(av[5]);
 	rules->number_of_compiles_required = atoi(av[6]);
 	rules->dongle_cooldown = atoi(av[7]);
 	rules->scheduler = check_scheduler(av[8]);
 	return (ft_check_errors(rules));
 }
 
-static int	ft_check_errors(t_node	*rules)
+static int	ft_check_errors(t_data	*rules)
 {
 	if (rules->number_of_coders < 0)
 		return (printf("Coders need to be more then 2"), 1);
@@ -53,6 +53,6 @@ static int	ft_check_errors(t_node	*rules)
 	else if (rules->dongle_cooldown < 0)
 		return (printf("Cooldown needs to be possitve"), 1);
 	else if (rules->scheduler < 0)
-		return (printf("Scheduler needs to be only 'fifo' or  'eof' "), 1);
+		return (printf("Scheduler needs to be only 'fifo' or  'edf' "), 1);
 	return (0);
 }

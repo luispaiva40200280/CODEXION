@@ -1,8 +1,8 @@
-CC = cc -Wall -Wextra -Werror -I .
+CC = cc -Wall -Wextra -Werror -pthread -I .
 
 all: comp run
 
 comp:
 	$(CC) *.c -g -o test
 run: $(comp)
-	./test 78 45 12 75 85 89 75 fifo
+	./test 2 100 50 50 50 10 5 fifo

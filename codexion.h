@@ -17,6 +17,9 @@
 # include <stdlib.h>
 # include <string.h>
 # include <stdio.h>
+# include <pthread.h>
+# include <sys/time.h>
+# include <unistd.h>
 
 /*STRUCTERS*/
 typedef struct s_dongle t_dongle;
@@ -25,25 +28,45 @@ typedef struct s_coder t_coder;
 
 typedef struct t_data
 {
-	int	number_of_coders;
-	int	time_to_burnout;
-	int	time_to_compile;
-	int	time_to_debug;
-	int	time_to_refactor;
-	int	number_of_compiles_required;
-	int	dongle_cooldown;
-	int	scheduler;
+	int			number_of_coders;
+	long long		time_to_burnout;
+	long long		time_to_compile;
+	long long		time_to_debug;
+	long long		time_to_refactor;
+	int			number_of_compiles_required;
+	int			dongle_cooldown;
+	int			scheduler;
+	struct s_dongle		*dongles;
+	struct s_coder		*coders;
+	int			sim_active;
+	pthread_mutex_t		sim_lock;
+	pthread_mutex_t		write_lock;
 }		t_data;
 
 typedef struct s_coder
 {
-	int	val;
+	int		id;
+	long long	last_compile_start;
+	int		max_compiles;
+	int		nbr_of_compiles;
+	int		is_wait;
+	int		is_compiling;
+	pthread_t	thread;
+	pthread_cond_t	wait;
+	t_dongle 	*right_dongle;
+	t_dongle 	*left_dongle;
+	struct t_data		*data;
 }	t_coder;
 
 typedef struct s_dongle
 {
-	int	data;
+	int		is_cooldown;
+	int		is_taken;
+	long long	time_cooldown;
+	t_data		*data;
+	pthread_mutex_t lock;
 }	t_dongle;
+
 /*Prototipes*/
 int	ft_parser(char **av, t_data *rules);
 
