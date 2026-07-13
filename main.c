@@ -43,10 +43,8 @@ static void	ft_show_rules(t_data *rules)
 static int	check_letters(char **av)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
 	while (++i < 8)
 	{
 		if (ft_is_numeric_string(av[i]))

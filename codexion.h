@@ -21,6 +21,13 @@
 # include <sys/time.h>
 # include <unistd.h>
 
+/*ACTIONS*/
+
+# define BURN_OUT 0 
+# define TAKEN 1
+# define COMPILING 2
+# define  DEBUGING 3
+# define  REFACTURING 4
 /*STRUCTERS*/
 typedef struct s_dongle t_dongle;
 
@@ -38,7 +45,8 @@ typedef struct t_data
 	int			scheduler;
 	struct s_dongle		*dongles;
 	struct s_coder		*coders;
-	int			sim_active;
+	struct s_coder    *queue;
+  int			sim_active;
 	pthread_mutex_t		sim_lock;
 	pthread_mutex_t		write_lock;
 }		t_data;
@@ -49,8 +57,7 @@ typedef struct s_coder
 	long long	last_compile_start;
 	int		max_compiles;
 	int		nbr_of_compiles;
-	int		is_wait;
-	int		is_compiling;
+  int   action,
 	pthread_t	thread;
 	pthread_cond_t	wait;
 	t_dongle 	*right_dongle;
