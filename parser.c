@@ -14,6 +14,8 @@
 
 static int	ft_check_errors(t_data	*rules);
 
+static long long	ft_atoll_parser(const char *str);
+
 static int	check_scheduler(char *str)
 {
 	if (strcmp(str, "fifo") == 0)
@@ -26,10 +28,10 @@ static int	check_scheduler(char *str)
 int	ft_parser(char **av, t_data *rules)
 {
 	rules->number_of_coders = atoi(av[1]);
-	rules->time_to_burnout = (long long)atoi(av[2]);
-	rules->time_to_compile = (long long)atoi(av[3]);
-	rules->time_to_debug = (long long)atoi(av[4]);
-	rules->time_to_refactor = (long long)atoi(av[5]);
+	rules->time_to_burnout = ft_atoll_parser((const char *)av[2]);
+	rules->time_to_compile = ft_atoll_parser((const char *)av[3]);
+	rules->time_to_debug =   ft_atoll_parser((const char *)av[4]);
+	rules->time_to_refactor =  ft_atoll_parser((const char *)av[5]);
 	rules->number_of_compiles_required = atoi(av[6]);
 	rules->dongle_cooldown = atoi(av[7]);
 	rules->scheduler = check_scheduler(av[8]);
@@ -55,4 +57,17 @@ static int	ft_check_errors(t_data	*rules)
 	else if (rules->scheduler < 0)
 		return (printf("Scheduler needs to be only 'fifo' or  'edf' "), 1);
 	return (0);
+}
+
+static long long	ft_atoll_parser(const char *str)
+{
+	long long	nbr;
+
+	nbr = 0;
+	while (*str)
+	{
+		nbr = (nbr * 10) + (*str - '0');
+		str++;
+	}
+	return (nbr);
 }

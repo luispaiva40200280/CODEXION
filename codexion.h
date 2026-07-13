@@ -21,19 +21,27 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-/*ACTIONS*/
+/*ACTIONS Macros*/
 
-# define BURN_OUT 0 
-# define TAKEN 1
-# define COMPILING 2
-# define  DEBUGING 3
-# define  REFACTURING 4
+# define	BURN_OUT 0 
+# define	TAKEN 1
+# define	COMPILING 2
+# define	DEBUGING 3
+# define 	REFACTURING 4
+# define
 /*STRUCTERS*/
 typedef struct s_dongle t_dongle;
 
 typedef struct s_coder t_coder;
 
-typedef struct t_data
+typedef struct s_heap
+{
+	t_coder	**coders;
+	int	max_leng;
+	int	size;
+	int	type;
+}	t_heap
+typedef struct s_data
 {
 	int			number_of_coders;
 	long long		time_to_burnout;
@@ -45,8 +53,8 @@ typedef struct t_data
 	int			scheduler;
 	struct s_dongle		*dongles;
 	struct s_coder		*coders;
-	struct s_coder    *queue;
-  int			sim_active;
+	struct s_coder    	*queue;
+  	int			sim_active;
 	pthread_mutex_t		sim_lock;
 	pthread_mutex_t		write_lock;
 }		t_data;
@@ -57,12 +65,12 @@ typedef struct s_coder
 	long long	last_compile_start;
 	int		max_compiles;
 	int		nbr_of_compiles;
-  int   action,
+	int   		action;
 	pthread_t	thread;
 	pthread_cond_t	wait;
 	t_dongle 	*right_dongle;
 	t_dongle 	*left_dongle;
-	struct t_data		*data;
+	struct s_data		*data;
 }	t_coder;
 
 typedef struct s_dongle
