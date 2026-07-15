@@ -27,8 +27,11 @@
 # define	TAKEN 1
 # define	COMPILING 2
 # define	DEBUGING 3
-# define 	REFACTURING 4
-# define
+# define 	REFACTORING 4
+
+# define	EDF 2
+# define	FIFO 1
+
 /*STRUCTERS*/
 typedef struct s_dongle t_dongle;
 
@@ -36,11 +39,12 @@ typedef struct s_coder t_coder;
 
 typedef struct s_heap
 {
-	t_coder	**coders;
+	struct s_coder	**coders;
 	int	max_leng;
 	int	size;
 	int	type;
-}	t_heap
+}	t_heap;
+
 typedef struct s_data
 {
 	int			number_of_coders;
@@ -53,7 +57,7 @@ typedef struct s_data
 	int			scheduler;
 	struct s_dongle		*dongles;
 	struct s_coder		*coders;
-	struct s_coder    	*queue;
+	struct s_heap    	*queue;
   	int			sim_active;
 	pthread_mutex_t		sim_lock;
 	pthread_mutex_t		write_lock;
@@ -63,6 +67,7 @@ typedef struct s_coder
 {
 	int		id;
 	long long	last_compile_start;
+	long long	request_time;
 	int		max_compiles;
 	int		nbr_of_compiles;
 	int   		action;
@@ -70,7 +75,6 @@ typedef struct s_coder
 	pthread_cond_t	wait;
 	t_dongle 	*right_dongle;
 	t_dongle 	*left_dongle;
-	struct s_data		*data;
 }	t_coder;
 
 typedef struct s_dongle
@@ -78,7 +82,6 @@ typedef struct s_dongle
 	int		is_cooldown;
 	int		is_taken;
 	long long	time_cooldown;
-	t_data		*data;
 	pthread_mutex_t lock;
 }	t_dongle;
 
