@@ -21,9 +21,13 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-/*ACTIONS Macros*/
+/* MACROS
+ * 1 - ACTIONS FOR coders
+ * 2 -scheduler of queue  
+ * 3 - Coolors for the therminal
+*/
 
-# define	BURN_OUT 0 
+# define	BURN_OUT 0
 # define	TAKEN 1
 # define	COMPILING 2
 # define	DEBUGING 3
@@ -31,6 +35,10 @@
 
 # define	EDF 2
 # define	FIFO 1
+
+#ifndef COOLORS
+# define  COOLORS 0
+#endif
 
 /*STRUCTERS*/
 typedef struct s_dongle t_dongle;

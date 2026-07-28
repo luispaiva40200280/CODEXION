@@ -37,14 +37,40 @@ int	compare_priority(t_coder *coder_a, t_coder *coder_b, t_data *data)
 		return (deadline_a < deadline_b);
 	return (coder_a->request_time < coder_b->request_time);
 }
-/*
+
 static void	ft_swap_coders(t_coder *coder_a, t_coder *coder_b)
 {
+  t_coder *tmp;
+
+  tmp = *coder_a;
+  coder_a = *coder_b;
+  coder_b = *tmp;
 }
 
 void	ft_heappush(t_heap *queue, t_coder *coder)
 {
+  int index;
+  t_coder tmp;
+
 	queue->coders[queue->size] = coder;
 	queue->size++;
-	
-}*/
+  index = 0
+  tmp = malloc(sizeof(t_coder *));
+  while (queue->size--)
+  {
+    index = (queue->size - 1) / 2
+    if (compare_priority(&coder, &queue->coders[index]))
+    {
+      tmp = queue->coders[queue->size];
+      queue->coders[queue->size] = queue->coders[index];
+      queue->coders[index] = tmp;
+    }
+    else
+      break ;
+  }
+}
+
+void  ft_heappop(t_heap *queue, t_coder *coder)
+{
+
+}
