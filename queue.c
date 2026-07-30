@@ -14,21 +14,6 @@
 
 void swap_coders(t_heap *queue, int i, int j);
 
-int	init_queue(t_data *data)
-{
-	data->queue = malloc(sizeof(t_heap));
-	if (!data->queue)
-		return (1);
-	data->queue->size = 0;
-	data->queue->coders = malloc(sizeof(t_coder *) * data->number_of_coders);
-	if (!data->queue->coders)
-		return (1);
-	data->queue->max_leng = data->number_of_coders;
-	data->queue->type = data->scheduler;
-	data->queue->data = data;
-	return (0);
-}
-
 int	compare_priority(t_coder *coder_a, t_coder *coder_b, t_data *data)
 {
 	long long	deadline_a;
