@@ -1,4 +1,5 @@
 CC = cc -Wall -Wextra -Werror -pthread -I .
+ARG ?= FIFO
 
 all: comp run
 
@@ -7,3 +8,4 @@ comp:
 
 run: $(comp)
 	./test 2 100 50 50 50 10 5 edf
+

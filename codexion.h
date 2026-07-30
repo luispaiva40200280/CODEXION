@@ -51,6 +51,7 @@ typedef struct s_heap
 	int	max_leng;
 	int	size;
 	int	type;
+	struct s_data	*data;
 }	t_heap;
 
 typedef struct s_data
@@ -95,5 +96,12 @@ typedef struct s_dongle
 
 /*Prototipes*/
 int	ft_parser(char **av, t_data *rules);
+int	init_queue(t_data *data);
+int	compare_priority(t_coder *coder_a, t_coder *coder_b, t_data *data);
+void	ft_heappush(t_data *data, t_coder *coder);
+void	ft_heappush(t_data *data, t_coder *coder);
+void swap_coders(t_heap *queue, int i, int j);
+void	heap_shift_down(t_heap *queue, int index);
+t_coder	*ft_heappop(t_heap *queue);
 
 #endif

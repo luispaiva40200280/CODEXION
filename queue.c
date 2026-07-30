@@ -12,9 +12,11 @@
 
 #include "codexion.h"
 
+void swap_coders(t_heap *queue, int i, int j);
+
 int	init_queue(t_data *data)
 {
-	data->queue = malloc(sizeof(t_coder *));
+	data->queue = malloc(sizeof(t_heap));
 	if (!data->queue)
 		return (1);
 	data->queue->size = 0;
@@ -23,48 +25,86 @@ int	init_queue(t_data *data)
 		return (1);
 	data->queue->max_leng = data->number_of_coders;
 	data->queue->type = data->scheduler;
+	data->queue->data = data;
 	return (0);
 }
 
 int	compare_priority(t_coder *coder_a, t_coder *coder_b, t_data *data)
 {
-	int	deadline_a;
-	int	deadline_b;
+	long long	deadline_a;
+	long long	deadline_b;
 
 	deadline_a = coder_a->last_compile_start + data->time_to_burnout;
 	deadline_b = coder_b->last_compile_start + data->time_to_burnout;
 	if (data->scheduler == EDF)
+	{
+		if (deadline_a == deadline_b)
+			return (coder_a->id < coder_b->id);
 		return (deadline_a < deadline_b);
+	}
+	if (coder_a->request_time == coder_b->request_time)
+		return (coder_a->id < coder_b->id);
 	return (coder_a->request_time < coder_b->request_time);
 }
 
 void	ft_heappush(t_data *data, t_coder *coder)
 {
-	int index;
-	t_coder *tmp;
-	t_heap *queue;
+	int	index;
+	int	parent;
+	t_heap	*queue;
 
 	queue = data->queue;
 	queue->coders[queue->size] = coder;
 	queue->size++;
-	index = 0;
-	tmp = malloc(sizeof(t_coder *));
-	while (queue->size--)
+	parent = queue->size - 1;
+	index = parent;
+	while (index)
 	{
-		index = (queue->size - 1) / 2;
+		index = (parent - 1) / 2;
 		if (compare_priority(coder, queue->coders[index], data))
 		{
-			tmp = queue->coders[queue->size];
-			queue->coders[queue->size] = queue->coders[index];
-			queue->coders[index] = tmp;
+			swap_coders(queue, parent, index);
+			parent = index;
 		}
 		else
 			break ;
 	}
 }
 
-void	heap_shift_down(t_heap *queue)
+void swap_coders(t_heap *queue, int i, int j)
 {
+	t_coder	*tmp;
+
+	tmp = queue->coders[i];
+	queue->coders[i] = queue->coders[j];
+	queue->coders[j]= tmp;
+}
+
+void	heap_shift_down(t_heap *queue, int index)
+{
+	int	left_index;
+	int	right_index;
+	int	winner_coder;
+
+	left_index = (2 * index) + 1;
+	while (left_index < queue->size)
+	{
+		right_index = (2 * index) + 2;
+		if (right_index >= queue->size)
+			winner_coder = left_index;
+		else if (compare_priority(queue->coders[left_index], queue->coders[right_index], queue->data))
+			winner_coder = left_index;
+		else
+			winner_coder = right_index;
+		if (compare_priority(queue->coders[winner_coder], queue->coders[index], queue->data))
+		{
+			swap_coders(queue, winner_coder, index);
+			index = winner_coder;
+			left_index = (2 * index) + 1;
+		}
+		else
+			break ;
+	}
 }
 
 t_coder	*ft_heappop(t_heap *queue)
@@ -74,7 +114,8 @@ t_coder	*ft_heappop(t_heap *queue)
 	if (queue->size == 0)
 		return (NULL);
 	head = queue->coders[0];
+	queue->coders[0] = queue->coders[queue->size - 1];
 	queue->size--;
-	heap_shift_down(queue);
+	heap_shift_down(queue, 0);
 	return (head);
 }
