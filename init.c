@@ -26,3 +26,21 @@ int	init_queue(t_data *data)
 	return (0);
 }
 
+int init_coders(t_heap *queue)
+{
+	int	i;
+	t_data	*data;
+
+	if (!queue || queue->size == 0 || !queue->coders)
+		return (1);
+	i = 0;
+	data = queue->data;
+	while (i < queue->max_leng)
+	{
+		queue->coders[i]->id = i + 1;
+		queue->coders[i]->left_dongle = data->dongles[i];
+		queue->coders[i]->left_dongle = NULL; 
+		i++;
+	}
+	return (0);
+}

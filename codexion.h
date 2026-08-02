@@ -64,7 +64,7 @@ typedef struct s_data
 	int			number_of_compiles_required;
 	int			dongle_cooldown;
 	int			scheduler;
-	struct s_dongle		*dongles;
+	struct s_dongle		**dongles;
 	struct s_coder		*coders;
 	struct s_heap    	*queue;
   	int			sim_active;
