@@ -26,7 +26,7 @@
  * 2 -scheduler of queue  
  * 3 - Coolors for the therminal
 */
-
+# define	WAITING 5
 # define	BURN_OUT 0
 # define	TAKEN 1
 # define	COMPILING 2
@@ -52,6 +52,7 @@ typedef struct s_heap
 	int	size;
 	int	type;
 	struct s_data	*data;
+	pthread_mutex_t	queue_lock;
 }	t_heap;
 
 typedef struct s_data
@@ -64,7 +65,7 @@ typedef struct s_data
 	int			number_of_compiles_required;
 	int			dongle_cooldown;
 	int			scheduler;
-	struct s_dongle		**dongles;
+	struct s_dongle		*dongles;
 	struct s_coder		*coders;
 	struct s_heap    	*queue;
   	int			sim_active;
@@ -88,6 +89,7 @@ typedef struct s_coder
 
 typedef struct s_dongle
 {
+	int		id;
 	int		is_cooldown;
 	int		is_taken;
 	long long	time_cooldown;
@@ -96,12 +98,11 @@ typedef struct s_dongle
 
 /*Prototipes*/
 int	ft_parser(char **av, t_data *rules);
-int	init_queue(t_data *data);
+int	init_data_lists(t_data *data);
 int	compare_priority(t_coder *coder_a, t_coder *coder_b, t_data *data);
 void	ft_heappush(t_data *data, t_coder *coder);
-void	ft_heappush(t_data *data, t_coder *coder);
-void swap_coders(t_heap *queue, int i, int j);
-void	heap_shift_down(t_heap *queue, int index);
 t_coder	*ft_heappop(t_heap *queue);
+void	swap_coders(t_heap *queue, int i, int j);
+void	heap_shift_down(t_heap *queue, int index);
 
 #endif

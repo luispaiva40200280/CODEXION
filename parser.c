@@ -35,6 +35,9 @@ int	ft_parser(char **av, t_data *rules)
 	rules->number_of_compiles_required = atoi(av[6]);
 	rules->dongle_cooldown = atoi(av[7]);
 	rules->scheduler = check_scheduler(av[8]);
+	pthread_mutex_init(&rules->sim_lock, NULL);
+	pthread_mutex_init(&rules->write_lock, NULL);
+	rules->sim_active = 1;
 	return (ft_check_errors(rules));
 }
 
