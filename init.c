@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "codexion.h"
 
-void	*coder_routine(void *);
+//void	*coder_routine(void *);
 
 int	init_data_lists(t_data *data)
 {
@@ -34,7 +34,7 @@ int	init_data_lists(t_data *data)
 	return (0);
 }
 
-int init_coders(t_data *data)
+int	init_coders(t_data *data)
 {
 	int	i;
 
@@ -70,5 +70,8 @@ int	init_dongles(t_data *data)
 		data->dongles[i].time_cooldown =0;
 		pthread_mutex_init(&data->dongles[i].lock, NULL);
 	}
+	i = -1;
+    	while (++i < data->number_of_coders)
+        	pthread_create(&data->coders[i].thread, NULL, coder_routine, &data->coders[i]);
 	return (0);
 }

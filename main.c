@@ -53,10 +53,11 @@ static int	check_letters(char **av)
 	return (0);
 }
 
+
 int	main(int ac, char **av)
 {
 	t_data	*rules;
-
+	int i = -1;
 	if (ac != 9)
 		return (printf("Nbr of args are wrong"), 1);
 	if (check_letters(av))
@@ -66,5 +67,21 @@ int	main(int ac, char **av)
 		return (printf("Something wrong whith malloc"), 1);
 	ft_parser(av, rules);
 	ft_show_rules(rules);
+	if (init_data_lists(rules) != 0)
+        	return (printf("Failed to init data lists\n"), 1);
+   	if (init_dongles(rules) != 0)
+       		return (printf("Failed to init dongles\n"), 1);
+    	if (init_coders(rules) != 0)
+        	return (printf("Failed to init coders\n"), 1);
+	while (++i < rules->number_of_coders)
+    	{
+		pthread_join(rules->coders[i].thread, NULL);
+    	}
+	// Free the allocated arrays
+    free(rules->queue->coders);
+    free(rules->queue);
+    free(rules->coders);
+    free(rules->dongles);
+    free(rules);
 	return (free(rules), 0);
 }

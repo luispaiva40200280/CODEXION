@@ -7,5 +7,5 @@ comp:
 	$(CC) *.c -g -o test
 
 run: $(comp)
-	./test 2 100 50 50 50 10 5 edf
+	./test 5 100 50 50 50 10 5 edf
 

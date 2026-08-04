@@ -6,12 +6,15 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 17:58:08 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/07/08 00:24:28 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/04 19:00:22 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CODEXION_H
 # define CODEXION_H
+
+# define _DEFAULT_SOURCE
+# define _XOPEN_SOURCE 500
 
 /*Includes */
 # include <stdlib.h>
@@ -40,7 +43,6 @@
 # define  COOLORS 0
 #endif
 
-/*STRUCTERS*/
 typedef struct s_dongle t_dongle;
 
 typedef struct s_coder t_coder;
@@ -105,4 +107,9 @@ t_coder	*ft_heappop(t_heap *queue);
 void	swap_coders(t_heap *queue, int i, int j);
 void	heap_shift_down(t_heap *queue, int index);
 
+/*INIT OF DONGLES AND CODERS*/
+int	init_data_lists(t_data *data);
+int	init_coders(t_data *data);
+int	init_dongles(t_data *data);
+void	*coder_routine(void *args);
 #endif
