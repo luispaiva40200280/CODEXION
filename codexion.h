@@ -60,6 +60,7 @@ typedef struct s_heap
 typedef struct s_data
 {
 	int			number_of_coders;
+	long long		start_time;
 	long long		time_to_burnout;
 	long long		time_to_compile;
 	long long		time_to_debug;
@@ -112,4 +113,5 @@ int	init_data_lists(t_data *data);
 int	init_coders(t_data *data);
 int	init_dongles(t_data *data);
 void	*coder_routine(void *args);
+long long	get_time(void);
 #endif

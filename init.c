@@ -47,7 +47,7 @@ int	init_coders(t_data *data)
 		data->coders[i].left_dongle = &data->dongles[i];
 		data->coders[i].right_dongle = &data->dongles[
 			(i + 1) % data->number_of_coders];
-		data->coders[i].request_time = 0;
+		data->coders[i].request_time = get_time();
 		data->coders[i].nbr_of_compiles = 0;
 		data->coders[i].action = WAITING;
 		data->coders[i].last_compile_start = 0;
@@ -70,8 +70,5 @@ int	init_dongles(t_data *data)
 		data->dongles[i].time_cooldown =0;
 		pthread_mutex_init(&data->dongles[i].lock, NULL);
 	}
-	i = -1;
-    	while (++i < data->number_of_coders)
-        	pthread_create(&data->coders[i].thread, NULL, coder_routine, &data->coders[i]);
 	return (0);
 }

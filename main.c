@@ -68,20 +68,22 @@ int	main(int ac, char **av)
 	ft_parser(av, rules);
 	ft_show_rules(rules);
 	if (init_data_lists(rules) != 0)
-        	return (printf("Failed to init data lists\n"), 1);
-   	if (init_dongles(rules) != 0)
-       		return (printf("Failed to init dongles\n"), 1);
+		return (printf("Failed to init data lists\n"), 1);
     	if (init_coders(rules) != 0)
         	return (printf("Failed to init coders\n"), 1);
+	if (init_dongles(rules) != 0)
+       		return (printf("Failed to init dongles\n"), 1);
 	while (++i < rules->number_of_coders)
-    	{
-		pthread_join(rules->coders[i].thread, NULL);
-    	}
+	{
+		pthread_create(&rules->coders[i].thread, NULL, coder_routine, &rules->coders[i]);
+	}
+	int j = -1;
+	while (++j < rules->number_of_coders)
+		pthread_join(rules->coders[j].thread, NULL);
 	// Free the allocated arrays
-    free(rules->queue->coders);
-    free(rules->queue);
-    free(rules->coders);
-    free(rules->dongles);
-    free(rules);
+ 	//free(rules->queue->coders);
+	free(rules->queue);
+	free(rules->coders);
+	free(rules->dongles);
 	return (free(rules), 0);
 }
