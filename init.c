@@ -53,6 +53,7 @@ int	init_coders(t_data *data)
 		data->coders[i].last_compile_start = 0;
 		//pthread_create(&data->coders[i].thread, NULL, coder_routine, &data->coders[i]);
 		pthread_cond_init(&data->coders[i].wait, NULL);
+		data->coders[i].data = data;
 	}
 	return (0);
 }

@@ -58,6 +58,7 @@ int	main(int ac, char **av)
 {
 	t_data	*rules;
 	int i = -1;
+
 	if (ac != 9)
 		return (printf("Nbr of args are wrong"), 1);
 	if (check_letters(av))
@@ -73,6 +74,7 @@ int	main(int ac, char **av)
         	return (printf("Failed to init coders\n"), 1);
 	if (init_dongles(rules) != 0)
        		return (printf("Failed to init dongles\n"), 1);
+	rules->start_time = get_time();
 	while (++i < rules->number_of_coders)
 	{
 		pthread_create(&rules->coders[i].thread, NULL, coder_routine, &rules->coders[i]);

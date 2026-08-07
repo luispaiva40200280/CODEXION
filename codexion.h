@@ -72,6 +72,7 @@ typedef struct s_data
 	struct s_coder		*coders;
 	struct s_heap    	*queue;
   	int			sim_active;
+	pthread_t		og_thread;
 	pthread_mutex_t		sim_lock;
 	pthread_mutex_t		write_lock;
 }		t_data;
@@ -86,6 +87,7 @@ typedef struct s_coder
 	int   		action;
 	pthread_t	thread;
 	pthread_cond_t	wait;
+	struct s_data	*data;
 	t_dongle 	*right_dongle;
 	t_dongle 	*left_dongle;
 }	t_coder;
