@@ -53,11 +53,23 @@ static int	check_letters(char **av)
 	return (0);
 }
 
+void	start_sim(t_data *rules)
+{
+	int	i;
+
+	rules->start_time = get_time();
+	i = -1;
+	while (++i < rules->number_of_coders)
+		pthread_create(&rules->coders[i].thread, NULL, coder_routine, &rules->coders[i]);
+	run_simulation(rules);
+	i = -1;
+	while (++i < rules->number_of_coders)
+		pthread_join(rules->coders[i].thread, NULL);
+}
 
 int	main(int ac, char **av)
 {
 	t_data	*rules;
-	int i = -1;
 
 	if (ac != 9)
 		return (printf("Nbr of args are wrong"), 1);
@@ -74,16 +86,7 @@ int	main(int ac, char **av)
         	return (printf("Failed to init coders\n"), 1);
 	if (init_dongles(rules) != 0)
        		return (printf("Failed to init dongles\n"), 1);
-	rules->start_time = get_time();
-	while (++i < rules->number_of_coders)
-	{
-		pthread_create(&rules->coders[i].thread, NULL, coder_routine, &rules->coders[i]);
-	}
-	int j = -1;
-	while (++j < rules->number_of_coders)
-		pthread_join(rules->coders[j].thread, NULL);
-	// Free the allocated arrays
- 	//free(rules->queue->coders);
+	start_sim(rules);
 	free(rules->queue);
 	free(rules->coders);
 	free(rules->dongles);

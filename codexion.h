@@ -114,6 +114,18 @@ void	heap_shift_down(t_heap *queue, int index);
 int	init_data_lists(t_data *data);
 int	init_coders(t_data *data);
 int	init_dongles(t_data *data);
-void	*coder_routine(void *args);
+
+/*Time functions*/
 long long	get_time(void);
+void	ft_usleep(long long time, t_data *data);
+
+/*SIMULATION */
+void	*coder_routine(void *args);
+void		run_sim_coder(t_coder *coder);
+void		run_simulation(t_data *data);
+
+
+/*PRINTING ACTION*/
+void	ft_print_action(t_coder *coder, int action);
+
 #endif
