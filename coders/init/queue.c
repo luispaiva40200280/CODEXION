@@ -5,16 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/13 00:02:12 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/07/13 00:08:53 by lpaiva           ###   ########.fr       */
+/*   Created: 2026/08/13 21:25:28 by lpaiva            #+#    #+#             */
+/*   Updated: 2026/08/13 21:31:08 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "codexion.h"
+#include "../includes/codexion.h"
+#include "../includes/macros.h"
+#include "../includes/structers.h"
 
-void swap_coders(t_heap *queue, int i, int j);
+static void	swap_coders(t_heap *queue, int i, int j);
 
-int	compare_priority(t_coder *coder_a, t_coder *coder_b, t_data *data)
+static int	compare_priority(t_coder *coder_a, t_coder *coder_b, t_data *data)
 {
 	long long	deadline_a;
 	long long	deadline_b;
@@ -32,40 +34,16 @@ int	compare_priority(t_coder *coder_a, t_coder *coder_b, t_data *data)
 	return (coder_a->request_time < coder_b->request_time);
 }
 
-void	ft_heappush(t_data *data, t_coder *coder)
-{
-	int	index;
-	int	parent;
-	t_heap	*queue;
-
-	queue = data->queue;
-	queue->coders[queue->size] = coder;
-	queue->size++;
-	parent = queue->size - 1;
-	index = parent;
-	while (index)
-	{
-		index = (parent - 1) / 2;
-		if (compare_priority(coder, queue->coders[index], data))
-		{
-			swap_coders(queue, parent, index);
-			parent = index;
-		}
-		else
-			break ;
-	}
-}
-
-void swap_coders(t_heap *queue, int i, int j)
+static void	swap_coders(t_heap *queue, int i, int j)
 {
 	t_coder	*tmp;
 
 	tmp = queue->coders[i];
 	queue->coders[i] = queue->coders[j];
-	queue->coders[j]= tmp;
+	queue->coders[j] = tmp;
 }
 
-void	heap_shift_down(t_heap *queue, int index)
+static void	heap_shift_down(t_heap *queue, int index)
 {
 	int	left_index;
 	int	right_index;
@@ -77,11 +55,13 @@ void	heap_shift_down(t_heap *queue, int index)
 		right_index = (2 * index) + 2;
 		if (right_index >= queue->size)
 			winner_coder = left_index;
-		else if (compare_priority(queue->coders[left_index], queue->coders[right_index], queue->data))
+		else if (compare_priority(queue->coders[left_index],
+				queue->coders[right_index], queue->data))
 			winner_coder = left_index;
 		else
 			winner_coder = right_index;
-		if (compare_priority(queue->coders[winner_coder], queue->coders[index], queue->data))
+		if (compare_priority(queue->coders[winner_coder], queue->coders[index],
+				queue->data))
 		{
 			swap_coders(queue, winner_coder, index);
 			index = winner_coder;
@@ -103,4 +83,28 @@ t_coder	*ft_heappop(t_heap *queue)
 	queue->size--;
 	heap_shift_down(queue, 0);
 	return (head);
+}
+
+void	ft_heappush(t_data *data, t_coder *coder)
+{
+	int		index;
+	int		parent;
+	t_heap	*queue;
+
+	queue = data->queue;
+	queue->coders[queue->size] = coder;
+	queue->size++;
+	parent = queue->size - 1;
+	index = parent;
+	while (index)
+	{
+		index = (parent - 1) / 2;
+		if (compare_priority(coder, queue->coders[index], data))
+		{
+			swap_coders(queue, parent, index);
+			parent = index;
+		}
+		else
+			break ;
+	}
 }
