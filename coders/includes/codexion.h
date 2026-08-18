@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 18:07:05 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/13 22:35:49 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/18 03:25:36 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ Time functions using gettimeofday an usleep
 */
 long long	get_time(void);
 void		ft_usleep(long long time, t_data *data);
+struct timespec	ft_calc_time_cooldown(t_dongle *dongle, long long start_time_sim);
 
 /*
 Simulation and routine of the coders
@@ -45,9 +46,9 @@ Simulation and routine of the coders
 void		*routine(void *arg);
 void		monitor(t_data *data);
 void		ft_print_action(t_coder *coders, int action);
-void		request_right_dongle(t_data *data, t_coder *coder, t_dongle *right);
-void		request_left_dongle(t_data *data, t_coder *coder, t_dongle *left);
-void		ft_request_dongles(t_data *data, t_coder *coder);
+void		request_right_dongle(t_coder *coder, t_dongle *right);
+void		request_left_dongle(t_coder *coder, t_dongle *left);
+void		ft_request_dongles(t_coder *coder);
 void		wake_threads(t_data *data);
 void		release_dongles(t_data *data, t_dongle *left, t_dongle *right);
 

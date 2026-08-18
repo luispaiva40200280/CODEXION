@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/12 02:20:59 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/14 01:17:16 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/18 03:36:24 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ static int	ft_init_dongles(t_data *data)
 	{
 		data->dongles[i].id = i + 1;
 		data->dongles[i].last_release = -data->dongle_cooldown;
+		data->dongles[i].time_to_cooldown = data->dongle_cooldown;
+		data->dongles[i].is_taken = 0;
+		pthread_cond_init(&data->dongles[i].cond, NULL);
 		pthread_mutex_init(&data->dongles[i].lock, NULL);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 20:34:35 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/14 00:50:55 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/18 03:41:09 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,15 @@ static void	ft_compile(t_data *data, t_coder *coder)
 {
 	if (coder->right_dongle->id == coder->left_dongle->id)
 	{
-		request_left_dongle(data, coder, coder->left_dongle);
+		request_left_dongle(coder, coder->left_dongle);
 		ft_usleep(data->time_to_burnout, data);
 		return ;
 	}
 	pthread_mutex_lock(&data->queue->queue_lock);
 	coder->request_time = get_time() - data->start_time;
 	ft_heappush(data, coder);
-	while (data->queue->coders[0] != coder)
-		pthread_cond_wait(&coder->wait, &data->queue->queue_lock);
-	ft_heappop(data->queue);
 	pthread_mutex_unlock(&data->queue->queue_lock);
-	ft_request_dongles(data, coder);
+	ft_request_dongles(coder);
 	pthread_mutex_lock(&data->sim_lock);
 	coder->last_compile_start = get_time() - data->start_time;
 	coder->nbr_of_compiles++;

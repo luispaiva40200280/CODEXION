@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 21:00:02 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/14 01:23:33 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/18 03:38:22 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,52 +16,69 @@
 
 void	release_dongles(t_data *data, t_dongle *left, t_dongle *right)
 {
+	pthread_mutex_lock(&right->lock);
+	pthread_mutex_lock(&left->lock);
 	long long	time;
 
 	time = get_time() - data->start_time;
 	left->last_release = time;
 	right->last_release = time;
+	left->is_taken = 0;
+	right->is_taken = 0;
 	pthread_mutex_unlock(&left->lock);
+	pthread_mutex_unlock(&right->lock);
+	wake_threads(data);
+	pthread_cond_broadcast(&left->cond);
+	pthread_cond_broadcast(&right->cond);
+}
+
+void	request_right_dongle(t_coder *coder, t_dongle *right)
+{
+	struct timespec	time_to_wait;
+	long long				time;
+
+	pthread_mutex_lock(&right->lock);
+	time = get_time() - coder->data->start_time;
+	while (right->is_taken || time - right->last_release < right->time_to_cooldown)
+	{
+		time = get_time() - coder->data->start_time;
+		time_to_wait = ft_calc_time_cooldown(right, coder->data->start_time);
+		pthread_cond_timedwait(&right->cond, &right->lock, &time_to_wait);
+	}
+	right->is_taken = 1;
+	ft_print_action(coder, TAKEN);
 	pthread_mutex_unlock(&right->lock);
 }
 
-void	request_right_dongle(t_data *data, t_coder *coder, t_dongle *right)
+void	request_left_dongle(t_coder *coder, t_dongle *left)
 {
-	long long	time;
-	long long	time_to_wait;
-
-	pthread_mutex_lock(&right->lock);
-	time = get_time() - data->start_time;
-	time_to_wait = (right->last_release + data->dongle_cooldown) - time;
-	if (right->last_release + data->dongle_cooldown > time)
-		ft_usleep(time_to_wait, data);
-	ft_print_action(coder, TAKEN);
-}
-
-void	request_left_dongle(t_data *data, t_coder *coder, t_dongle *left)
-{
-	long long	time;
-	long long	time_to_wait;
+	struct timespec	time_to_wait;
+	long long				time;
 
 	pthread_mutex_lock(&left->lock);
-	time = get_time() - data->start_time;
-	time_to_wait = (left->last_release + data->dongle_cooldown) - time;
-	if (left->last_release + data->dongle_cooldown > time)
-		ft_usleep(time_to_wait, data);
+	time = get_time() - coder->data->start_time;
+	while (left->is_taken || time - left->last_release < left->time_to_cooldown)
+	{
+		time = get_time() - coder->data->start_time;
+		time_to_wait = ft_calc_time_cooldown(left, coder->data->start_time);
+		pthread_cond_timedwait(&left->cond, &left->lock, &time_to_wait);
+	}
+	left->is_taken = 1;
 	ft_print_action(coder, TAKEN);
+	pthread_mutex_unlock(&left->lock);
 }
 
-void	ft_request_dongles(t_data *data, t_coder *coder)
+void	ft_request_dongles(t_coder *coder)
 {
 	if (coder->id % 2 == 0)
 	{
-		request_left_dongle(data, coder, coder->left_dongle);
-		request_right_dongle(data, coder, coder->right_dongle);
+		request_left_dongle(coder, coder->left_dongle);
+		request_right_dongle(coder, coder->right_dongle);
 	}
 	else
 	{
-		request_right_dongle(data, coder, coder->right_dongle);
-		request_left_dongle(data, coder, coder->left_dongle);
+		request_right_dongle(coder, coder->right_dongle);
+		request_left_dongle(coder, coder->left_dongle);
 	}
 }
 
