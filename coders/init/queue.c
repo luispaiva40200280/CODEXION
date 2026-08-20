@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 21:25:28 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/13 21:31:08 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/19 19:13:52 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 #include "../includes/macros.h"
 #include "../includes/structers.h"
 
-static void	swap_coders(t_heap *queue, int i, int j);
-
-static int	compare_priority(t_coder *coder_a, t_coder *coder_b, t_data *data)
+int	compare_priority(t_coder *coder_a, t_coder *coder_b, t_data *data)
 {
 	long long	deadline_a;
 	long long	deadline_b;
@@ -34,7 +32,7 @@ static int	compare_priority(t_coder *coder_a, t_coder *coder_b, t_data *data)
 	return (coder_a->request_time < coder_b->request_time);
 }
 
-static void	swap_coders(t_heap *queue, int i, int j)
+void	swap_coders(t_heap *queue, int i, int j)
 {
 	t_coder	*tmp;
 
@@ -43,7 +41,7 @@ static void	swap_coders(t_heap *queue, int i, int j)
 	queue->coders[j] = tmp;
 }
 
-static void	heap_shift_down(t_heap *queue, int index)
+void	heap_shift_down(t_heap *queue, int index)
 {
 	int	left_index;
 	int	right_index;

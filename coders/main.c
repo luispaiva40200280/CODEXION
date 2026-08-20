@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 19:50:58 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/14 01:09:55 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/20 23:21:10 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,22 @@ int	main(int ac, char **av)
 {
 	t_data	*data;
 
+	if (check_args(ac, av))
+		return (1);
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (printf("%sErrror: %s data allocation failed", RED, RESET), 1);
-	if (check_args(ac, av))
-		return (1);
 	if (ft_parser(av, data))
 	{
+		free(data);
 		printf("%sErrror:%s Someting went wrong whith the parser", RED, RESET);
 		return (1);
 	}
 	if (ft_init_all(data))
+	{
+		ft_free_all(data);
 		return (1);
+	}
 	ft_start_imulation(data);
 	return (ft_free_all(data), 0);
 }

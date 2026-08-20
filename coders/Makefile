@@ -1,6 +1,6 @@
 NAME = codexion
 CC = cc -Wall -Wextra -Werror -pthread -I
-SRCS = main.c init/checker.c init/init.c init/parser.c init/queue.c \
+SRCS = main.c init/checker.c init/init.c init/parser.c init/queue.c init/queue_utils.c \
     simulation/coder.c simulation/ft_time.c simulation/monitor.c simulation/routine.c
 
 all: $(NAME)
@@ -19,5 +19,7 @@ clean:
 
 fclean: $(clean)
 
+lint:
+	norminette
+
 .PHONY: all clean fclean re $(NAME)
-                                       

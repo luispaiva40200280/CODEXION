@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 19:04:55 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/18 03:26:42 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/18 19:11:53 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,14 @@ long long	get_time(void)
 	return (time);
 }
 
-struct timespec	ft_calc_time_cooldown(t_dongle *dongle, long long start_time_sim)
+struct timespec	ft_calc_time_cooldown(t_dongle *dongle,
+		long long start_time_sim)
 {
-	struct		timespec ts;
-	long long	time_ms;
+	struct timespec	ts;
+	long long		time_ms;
 
 	time_ms = start_time_sim + dongle->last_release + dongle->time_to_cooldown;
 	ts.tv_sec = time_ms / 1000;
-	ts.tv_nsec = (time_ms % 1000) * 1000000;;
+	ts.tv_nsec = (time_ms % 1000) * 1000000;
 	return (ts);
 }

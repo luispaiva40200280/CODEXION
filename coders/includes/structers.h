@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 18:07:15 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/18 01:47:48 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/18 00:07:17 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ typedef struct s_dongle
 {
 	int					id;
 	long long			last_release;
-	int						is_taken;
-	int						time_to_cooldown;
-	pthread_cond_t	cond;
+	int					time_to_cooldown;
+	int					is_taken;
 	pthread_mutex_t		lock;
+	pthread_cond_t		cond;
 }						t_dongle;
 
 #endif

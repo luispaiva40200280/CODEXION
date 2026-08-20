@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 19:58:09 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/13 20:20:30 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/20 23:27:55 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	check_args(int ac, char **av)
 		printf("<number_of_coders> <time_to_burnout> ");
 		printf("<time_to_compile> <time_to_debug> <time_to_refactor> ");
 		printf("<number_of_compiles_required> <dongle_cooldown> <scheduler>\n");
-		exit(1);
+		return (1);
 	}
 	return (check_rules(av));
 }
