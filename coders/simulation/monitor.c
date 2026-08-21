@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 19:16:36 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/13 22:23:44 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/21 03:44:37 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ void	wake_threads(t_data *data)
 {
 	int	i;
 
-	pthread_mutex_lock(&data->queue->queue_lock);
 	i = -1;
 	while (++i < data->number_of_coders)
 	{
-		pthread_cond_signal(&data->coders[i].wait);
+		pthread_mutex_lock(&data->dongles[i].lock);
+		pthread_cond_broadcast(&data->dongles[i].cond);
+		pthread_mutex_unlock(&data->dongles[i].lock);
 	}
-	pthread_mutex_unlock(&data->queue->queue_lock);
 }
 
 static int	is_coder_burnout(t_data *data, t_coder *coders)

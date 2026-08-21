@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/12 00:08:29 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/19 01:39:58 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/21 03:15:27 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_scheduler(const char *scheduler)
 
 static int	ft_check_data(t_data *data)
 {
-	if (data->number_of_compiles_required <= 0)
+	if (data->number_of_compiles_required < 0)
 		return (1);
 	if (data->number_of_coders <= 0)
 		return (1);

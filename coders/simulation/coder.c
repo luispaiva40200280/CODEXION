@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 21:00:02 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/21 00:31:02 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/21 01:59:53 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ void	request_right_dongle(t_coder *coder, t_dongle *right)
 		pthread_mutex_lock(&coder->data->sim_lock);
 		if (coder->data->sim_active == 0)
 		{
+			pthread_mutex_unlock(&right->lock);
 			pthread_mutex_unlock(&coder->data->sim_lock);
-			break ;
+			return ;
 		}
 		pthread_mutex_unlock(&coder->data->sim_lock);
 		time_to_wait = ft_calc_time_cooldown(right, coder->data->start_time);
@@ -80,8 +81,9 @@ void	request_left_dongle(t_coder *coder, t_dongle *left)
 		pthread_mutex_lock(&coder->data->sim_lock);
 		if (coder->data->sim_active == 0)
 		{
+			pthread_mutex_unlock(&left->lock);
 			pthread_mutex_unlock(&coder->data->sim_lock);
-			break ;
+			return ;
 		}
 		pthread_mutex_unlock(&coder->data->sim_lock);
 		time_to_wait = ft_calc_time_cooldown(left, coder->data->start_time);

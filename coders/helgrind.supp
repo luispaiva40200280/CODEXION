@@ -1,0 +1,61 @@
+{
+   <timedwait_false_positive_right_misc>
+   Helgrind:Misc
+   obj:/usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so
+   fun:__pthread_cond_wait_common
+   fun:pthread_cond_timedwait@@GLIBC_2.3.2
+   obj:/usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so
+   fun:request_right_dongle
+   fun:ft_request_dongles
+   fun:ft_compile
+   fun:routine
+   obj:/usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so
+   fun:start_thread
+   fun:clone
+}
+{
+   <timedwait_false_positive_right_dubious>
+   Helgrind:Dubious
+   obj:/usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so
+   fun:__pthread_cond_wait_common
+   fun:pthread_cond_timedwait@@GLIBC_2.3.2
+   obj:/usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so
+   fun:request_right_dongle
+   fun:ft_request_dongles
+   fun:ft_compile
+   fun:routine
+   obj:/usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so
+   fun:start_thread
+   fun:clone
+}
+
+{
+   <timedwait_false_positive_left_dubius>
+   Helgrind:Dubious
+   obj:/usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so
+   fun:__pthread_cond_wait_common
+   fun:pthread_cond_timedwait@@GLIBC_2.3.2
+   obj:/usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so
+   fun:request_left_dongle
+   fun:ft_request_dongles
+   fun:ft_compile
+   fun:routine
+   obj:/usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so
+   fun:start_thread
+   fun:clone
+}
+{
+   <timedwait_false_positive_left_misc>
+   Helgrind:Misc
+   obj:/usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so
+   fun:__pthread_cond_wait_common
+   fun:pthread_cond_timedwait@@GLIBC_2.3.2
+   obj:/usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so
+   fun:request_left_dongle
+   fun:ft_request_dongles
+   fun:ft_compile
+   fun:routine
+   obj:/usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so
+   fun:start_thread
+   fun:clone
+}

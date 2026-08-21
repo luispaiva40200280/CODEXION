@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 19:04:55 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/18 19:11:53 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/21 02:50:45 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_usleep(long long time, t_data *data)
 			break ;
 		}
 		pthread_mutex_unlock(&data->sim_lock);
-		usleep(100);
+		usleep(1000);
 	}
 }
 

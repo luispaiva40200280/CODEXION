@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 19:50:58 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/20 23:21:10 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/21 04:09:43 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,24 @@ static void	ft_free_all(t_data *data)
 {
 	int	i;
 
-	pthread_mutex_destroy(&data->sim_lock);
-	pthread_mutex_destroy(&data->write_lock);
-	pthread_mutex_destroy(&data->queue->queue_lock);
+	if (!data->queue)
+	{
+		
+		pthread_mutex_destroy(&data->sim_lock);
+		pthread_mutex_destroy(&data->write_lock);
+		pthread_mutex_destroy(&data->queue->queue_lock);
+		free(data->queue->coders);
+		free(data->queue);
+		free(data->coders);
+		free(data->dongles);
+		free(data);
+	}
 	i = -1;
 	while (++i < data->number_of_coders)
 	{
 		pthread_mutex_destroy(&data->dongles[i].lock);
 		pthread_cond_destroy(&data->coders[i].wait);
 	}
-	free(data->queue->coders);
-	free(data->queue);
-	free(data->coders);
-	free(data->dongles);
-	free(data);
 }
 
 static void	ft_start_imulation(t_data *data)
@@ -58,6 +62,7 @@ int	main(int ac, char **av)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (printf("%sErrror: %s data allocation failed", RED, RESET), 1);
+	memset(data, 0, sizeof(t_data));
 	if (ft_parser(av, data))
 	{
 		free(data);
