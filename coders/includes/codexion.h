@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 18:07:05 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/19 19:13:34 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/22 18:29:59 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <limits.h>
 
 /*
 parser and initialization of all Data
 necessary for the coders
 */
 int				check_args(int ac, char **av);
-int				ft_parser(char **av, t_data *data);
+int				ft_parser_init(char **av, t_data *data);
 int				ft_init_all(t_data *data);
 
 /*
@@ -46,12 +47,11 @@ Simulation and routine of the coders
 
 void			*routine(void *arg);
 void			monitor(t_data *data);
-void			ft_print_action(t_coder *coders, int action);
 void			request_right_dongle(t_coder *coder, t_dongle *right);
 void			request_left_dongle(t_coder *coder, t_dongle *left);
-void			ft_request_dongles(t_coder *coder);
 void			wake_threads(t_data *data);
 void			release_dongles(t_data *data, t_dongle *left, t_dongle *right);
+void			log_action(t_coder *coder, const char *msg, const char *color);
 
 /*
 Heap queue functions

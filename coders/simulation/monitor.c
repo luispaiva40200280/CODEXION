@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 19:16:36 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/21 03:44:37 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/22 03:40:33 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ static int	is_coder_burnout(t_data *data, t_coder *coders)
 	{
 		if (time - coders[i].last_compile_start >= data->time_to_burnout)
 		{
-			pthread_mutex_lock(&data->write_lock);
-			ft_print_action(&coders[i], BURN_OUT);
+			log_action(&coders[i], "burned out", RED);
 			return (1);
 		}
 	}

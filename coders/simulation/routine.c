@@ -6,13 +6,42 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 20:34:35 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/21 03:30:33 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/22 18:30:02 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/codexion.h"
 #include "../includes/macros.h"
 #include "../includes/structers.h"
+
+static void	ft_request_dongles(t_coder *coder)
+{
+	if (coder->left_dongle == coder->right_dongle)
+	{
+		while (1)
+		{
+			pthread_mutex_lock(&coder->data->sim_lock);
+			if (coder->data->sim_active == 0)
+			{
+				pthread_mutex_unlock(&coder->data->sim_lock);
+				break ;
+			}
+			pthread_mutex_unlock(&coder->data->sim_lock);
+			usleep(500);
+		}
+		return ;
+	}
+	if (coder->id % 2 == 0)
+	{
+		request_left_dongle(coder, coder->left_dongle);
+		request_right_dongle(coder, coder->right_dongle);
+	}
+	else
+	{
+		request_right_dongle(coder, coder->right_dongle);
+		request_left_dongle(coder, coder->left_dongle);
+	}
+}
 
 static void	ft_compile(t_data *data, t_coder *coder)
 {
@@ -25,13 +54,13 @@ static void	ft_compile(t_data *data, t_coder *coder)
 	pthread_mutex_lock(&data->sim_lock);
 	if (data->sim_active == 0)
 	{
-		release_dongles(data, coder->left_dongle, coder->right_dongle);
 		pthread_mutex_unlock(&data->sim_lock);
+		release_dongles(data, coder->left_dongle, coder->right_dongle);
 		return ;
 	}
-	pthread_mutex_unlock(&data->sim_lock);
 	coder->last_compile_start = get_time() - data->start_time;
-	ft_print_action(coder, COMPILING);
+	pthread_mutex_unlock(&data->sim_lock);
+	log_action(coder, "is compiling", GREEN);
 	ft_usleep(data->time_to_compile, data);
 	pthread_mutex_lock(&data->sim_lock);
 	coder->nbr_of_compiles++;
@@ -58,9 +87,9 @@ void	*routine(void *arg)
 		}
 		pthread_mutex_unlock(&data->sim_lock);
 		ft_compile(data, coder);
-		ft_print_action(coder, DEBUGING);
+		log_action(coder, "is debugging", YELLOW);
 		ft_usleep(data->time_to_debug, data);
-		ft_print_action(coder, REFACTORING);
+		log_action(coder, "is refacturing", MAGENTA);
 		ft_usleep(data->time_to_refactor, data);
 	}
 }

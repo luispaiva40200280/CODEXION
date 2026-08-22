@@ -1,0 +1,11 @@
+==159852== Helgrind, a thread error detector
+==159852== Copyright (C) 2007-2017, and GNU GPL'd, by OpenWorks LLP et al.
+==159852== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==159852== Command: ./codexion 1 3000 100 100 100 2 50 edf
+==159852== Parent PID: 159851
+==159852== 
+==159852== 
+==159852== Use --history-level=approx or =none to gain increased speed, at
+==159852== the cost of reduced accuracy of conflicting-access information
+==159852== For lists of detected and suppressed errors, rerun with: -s
+==159852== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 37961 from 40)

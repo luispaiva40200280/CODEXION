@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 19:50:58 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/21 04:09:43 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/22 17:21:57 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,43 @@
 #include "includes/macros.h"
 #include "includes/structers.h"
 
-static void	ft_free_all(t_data *data)
+static void	ft_destroy(t_data *data)
 {
 	int	i;
 
-	if (!data->queue)
+	if (!data)
+		return ;
+	pthread_mutex_destroy(&data->sim_lock);
+	pthread_mutex_destroy(&data->write_lock);
+	if (data->coders && data->dongles)
 	{
-		
-		pthread_mutex_destroy(&data->sim_lock);
-		pthread_mutex_destroy(&data->write_lock);
+		i = -1;
+		while (++i < data->number_of_coders)
+		{
+			pthread_mutex_destroy(&data->dongles[i].lock);
+			pthread_cond_destroy(&data->dongles[i].cond);
+			pthread_cond_destroy(&data->coders[i].wait);
+		}
+	}
+	if (data->queue)
 		pthread_mutex_destroy(&data->queue->queue_lock);
+}
+
+static void	ft_free_all(t_data *data)
+{
+	if (!data)
+		return ;
+	ft_destroy(data);
+	if (data->queue)
+	{
 		free(data->queue->coders);
 		free(data->queue);
+	}
+	if (data->coders)
 		free(data->coders);
+	if (data->dongles)
 		free(data->dongles);
-		free(data);
-	}
-	i = -1;
-	while (++i < data->number_of_coders)
-	{
-		pthread_mutex_destroy(&data->dongles[i].lock);
-		pthread_cond_destroy(&data->coders[i].wait);
-	}
+	free(data);
 }
 
 static void	ft_start_imulation(t_data *data)
@@ -63,7 +78,7 @@ int	main(int ac, char **av)
 	if (!data)
 		return (printf("%sErrror: %s data allocation failed", RED, RESET), 1);
 	memset(data, 0, sizeof(t_data));
-	if (ft_parser(av, data))
+	if (ft_parser_init(av, data))
 	{
 		free(data);
 		printf("%sErrror:%s Someting went wrong whith the parser", RED, RESET);

@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/12 00:08:29 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/21 03:15:27 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/22 17:25:21 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	ft_check_data(t_data *data)
 	return (0);
 }
 
-int	ft_parser(char **av, t_data *data)
+int	ft_parser_init(char **av, t_data *data)
 {
 	data->number_of_coders = atoi(av[1]);
 	data->time_to_burnout = atoi(av[2]);
@@ -52,8 +52,6 @@ int	ft_parser(char **av, t_data *data)
 	data->scheduler = check_scheduler((const char *)av[8]);
 	if (data->scheduler == -1)
 		return (1);
-	pthread_mutex_init(&data->sim_lock, NULL);
-	pthread_mutex_init(&data->write_lock, NULL);
 	data->sim_active = 1;
 	return (ft_check_data(data));
 }
