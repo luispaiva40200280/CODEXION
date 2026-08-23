@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 20:34:35 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/22 18:30:02 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/23 03:48:15 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,26 @@ static void	ft_compile(t_data *data, t_coder *coder)
 		return ;
 	}
 	coder->last_compile_start = get_time() - data->start_time;
-	pthread_mutex_unlock(&data->sim_lock);
 	log_action(coder, "is compiling", GREEN);
+	pthread_mutex_unlock(&data->sim_lock);
 	ft_usleep(data->time_to_compile, data);
 	pthread_mutex_lock(&data->sim_lock);
 	coder->nbr_of_compiles++;
 	pthread_mutex_unlock(&data->sim_lock);
 	release_dongles(data, coder->left_dongle, coder->right_dongle);
 	wake_threads(data);
+}
+
+static void	ft_debug_refac(t_data *data, t_coder *coder)
+{
+	pthread_mutex_lock(&coder->data->sim_lock);
+	log_action(coder, "is debugging", YELLOW);
+	pthread_mutex_unlock(&coder->data->sim_lock);
+	ft_usleep(data->time_to_debug, data);
+	pthread_mutex_lock(&coder->data->sim_lock);
+	log_action(coder, "is refacturing", MAGENTA);
+	pthread_mutex_unlock(&coder->data->sim_lock);
+	ft_usleep(data->time_to_refactor, data);
 }
 
 void	*routine(void *arg)
@@ -87,9 +99,6 @@ void	*routine(void *arg)
 		}
 		pthread_mutex_unlock(&data->sim_lock);
 		ft_compile(data, coder);
-		log_action(coder, "is debugging", YELLOW);
-		ft_usleep(data->time_to_debug, data);
-		log_action(coder, "is refacturing", MAGENTA);
-		ft_usleep(data->time_to_refactor, data);
+		ft_debug_refac(data, coder);
 	}
 }
