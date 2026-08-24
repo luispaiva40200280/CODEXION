@@ -47,15 +47,20 @@ Simulation and routine of the coders
 
 void			*routine(void *arg);
 void			monitor(t_data *data);
-void			request_right_dongle(t_coder *coder, t_dongle *right);
-void			request_left_dongle(t_coder *coder, t_dongle *left);
 void			wake_threads(t_data *data);
 void			release_dongles(t_data *data, t_dongle *left, t_dongle *right);
 void			log_action(t_coder *coder, const char *msg, const char *color);
+int				check_dongle_availeble(t_coder *coder, t_dongle *dongle,
+					long long time);
+void			release_one(t_dongle *dongle);
+void			request_single_dongle(t_coder *coder);
+int				ft_request_dongles(t_coder *coder);
+void			ft_wait_or_grab_dongle(t_coder *coder, t_dongle *dongle);
 
 /*
 Heap queue functions
 */
+
 void			ft_heappush(t_data *data, t_coder *coder);
 t_coder			*ft_heappop(t_heap *queue);
 void			ft_remove_queue(t_heap *queue, t_coder *coder);

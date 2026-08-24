@@ -2,7 +2,7 @@ NAME = codexion
 CC = cc -Wall -Wextra -Werror -pthread -I
 SRCS = main.c init/checker.c init/init.c init/parser.c init/queue.c init/queue_utils.c \
     simulation/coder.c simulation/ft_time.c simulation/monitor.c simulation/routine.c \
-		simulation/log_action.c
+		simulation/log_action.c simulation/dongle.c init/queue_check_priority.c
 
 all: $(NAME)
 
@@ -28,7 +28,7 @@ lint:
 ###############################################################################
 # Test configuration
 ###############################################################################
- 
+
 BIN       := ./$(NAME)
 SUPP      := helgrind.supp
 OUT_DIR   := TEST_OUTPUT
@@ -47,7 +47,7 @@ VG_ERR_CODE      := 99
 # test: run every test category
 ###############################################################################
  
-test: ARGS-TEST MEM-TEST HELGRIND-TEST 
+TESTS: ARGS-TEST MEM-TEST HELGRIND-TEST
  
 ###############################################################################
 # test_args: invalid arguments (5) + valid simulations (5)
@@ -138,7 +138,7 @@ HELGRIND-TEST: all
 		logfile="$(OUT_DIR)/HELGRIND/helgrind_$$name.log"; \
 		echo -e "$(WHITE)\$$ valgrind --tool=helgrind $(BIN) $$*$(NC)"; \
 		timeout $(HELGRIND_TIMEOUT) valgrind \
-			--tool=helgrind --suppressions=$(SUPP) \
+			--tool=helgrind --suppressions=$(SUPP) --gen-suppressions=all \
 			--error-exitcode=$(VG_ERR_CODE) --log-file="$$logfile" \
 			$(BIN) "$$@" >/dev/null 2>&1; \
 		if grep -q "ERROR SUMMARY: 0 errors from 0 contexts" "$$logfile" 2>/dev/null; then \
@@ -167,4 +167,4 @@ HELGRIND-TEST: all
 	[ $$fail -eq 0 ]
 
 
-.PHONY: all clean fclean re HELGRING-TEST MEM-TEST ARGS-TEST $(NAME)
+.PHONY: all clean fclean re TESTS $(NAME)

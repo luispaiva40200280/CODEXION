@@ -6,39 +6,13 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/19 01:29:47 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/21 18:28:05 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/24 02:48:32 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/codexion.h"
 #include "../includes/macros.h"
 #include "../includes/structers.h"
-
-int	check_global_priority(t_coder *coder, t_dongle *dongle)
-{
-	t_coder	*neighbor;
-	int		i;
-	int		priority;
-
-	pthread_mutex_lock(&coder->data->queue->queue_lock);
-	priority = 1;
-	i = -1;
-	while (++i < coder->data->queue->size)
-	{
-		neighbor = coder->data->queue->coders[i];
-		if (neighbor != coder && (neighbor->left_dongle->id == dongle->id
-				|| neighbor->right_dongle->id == dongle->id))
-		{
-			if (compare_priority(neighbor, coder, coder->data))
-			{
-				priority = 0;
-				break ;
-			}
-		}
-	}
-	pthread_mutex_unlock(&coder->data->queue->queue_lock);
-	return (priority);
-}
 
 void	heap_shift_up(t_heap *queue, int index)
 {
@@ -49,7 +23,7 @@ void	heap_shift_up(t_heap *queue, int index)
 	while (index > 0)
 	{
 		parent_index = (index - 1) / 2;
-		if (compare_priority(queue->coders[parent_index], queue->coders[index],
+		if (compare_priority(queue->coders[index], queue->coders[parent_index],
 				data))
 		{
 			swap_coders(queue, parent_index, index);
@@ -77,8 +51,8 @@ void	ft_remove_queue(t_heap *queue, t_coder *coder)
 			queue->size--;
 			if (i == queue->size)
 				break ;
-			if (i > 0 && compare_priority(queue->coders[i],
-					queue->coders[(i - 1) / 2], coder->data))
+			if (i > 0 && compare_priority(queue->coders[i], queue->coders[(i
+						- 1) / 2], coder->data))
 				heap_shift_up(queue, i);
 			else
 				heap_shift_down(queue, i);

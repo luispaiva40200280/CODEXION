@@ -94,7 +94,7 @@ void	ft_heappush(t_data *data, t_coder *coder)
 	queue->size++;
 	parent = queue->size - 1;
 	index = parent;
-	while (index)
+	while (index > 0)
 	{
 		index = (parent - 1) / 2;
 		if (compare_priority(coder, queue->coders[index], data))

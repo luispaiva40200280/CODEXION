@@ -14,42 +14,14 @@
 #include "../includes/macros.h"
 #include "../includes/structers.h"
 
-static void	ft_request_dongles(t_coder *coder)
-{
-	if (coder->left_dongle == coder->right_dongle)
-	{
-		while (1)
-		{
-			pthread_mutex_lock(&coder->data->sim_lock);
-			if (coder->data->sim_active == 0)
-			{
-				pthread_mutex_unlock(&coder->data->sim_lock);
-				break ;
-			}
-			pthread_mutex_unlock(&coder->data->sim_lock);
-			usleep(500);
-		}
-		return ;
-	}
-	if (coder->id % 2 == 0)
-	{
-		request_left_dongle(coder, coder->left_dongle);
-		request_right_dongle(coder, coder->right_dongle);
-	}
-	else
-	{
-		request_right_dongle(coder, coder->right_dongle);
-		request_left_dongle(coder, coder->left_dongle);
-	}
-}
-
 static void	ft_compile(t_data *data, t_coder *coder)
 {
 	pthread_mutex_lock(&data->queue->queue_lock);
 	coder->request_time = get_time() - data->start_time;
 	ft_heappush(data, coder);
 	pthread_mutex_unlock(&data->queue->queue_lock);
-	ft_request_dongles(coder);
+	if (ft_request_dongles(coder))
+		return ;
 	ft_remove_queue(data->queue, coder);
 	pthread_mutex_lock(&data->sim_lock);
 	if (data->sim_active == 0)
