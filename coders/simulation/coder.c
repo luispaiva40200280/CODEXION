@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 21:00:02 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/24 03:22:04 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/24 04:01:05 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	request_single_dongle(t_coder *coder)
 	}
 	return ;
 }
-
 
 void	ft_wait_or_grab_dongle(t_coder *coder, t_dongle *dongle)
 {

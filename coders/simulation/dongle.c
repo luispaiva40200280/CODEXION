@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/23 15:12:40 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/24 03:35:18 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/24 04:01:53 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	ft_grab_first_dongle(t_coder *coder, t_dongle *dongle)
 	return (0);
 }
 
-static t_dongle *ft_dicede_dongle(t_coder *coder, int i)
+static t_dongle	*ft_dicede_dongle(t_coder *coder, int i)
 {
 	if (i == 1)
 	{
@@ -68,7 +68,7 @@ static int	try_acquire_second_dongle(t_coder *coder, t_dongle *dongle)
 		dongle->is_taken = 1;
 	pthread_mutex_unlock(&dongle->lock);
 	return (got);
-}	
+}
 
 static int	ft_grab_dongles(t_coder *coder, t_dongle *first, t_dongle *second)
 {
@@ -82,7 +82,7 @@ static int	ft_grab_dongles(t_coder *coder, t_dongle *first, t_dongle *second)
 		}
 		pthread_mutex_unlock(&coder->data->sim_lock);
 		if (ft_grab_first_dongle(coder, first))
-			return (1) ;
+			return (1);
 		if (!try_acquire_second_dongle(coder, second))
 		{
 			release_one(first);

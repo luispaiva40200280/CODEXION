@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/19 01:29:47 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/24 02:48:32 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/24 04:00:34 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	ft_remove_queue(t_heap *queue, t_coder *coder)
 			queue->size--;
 			if (i == queue->size)
 				break ;
-			if (i > 0 && compare_priority(queue->coders[i], queue->coders[(i
-						- 1) / 2], coder->data))
+			if (i > 0 && compare_priority(queue->coders[i],
+					queue->coders[(i - 1) / 2], coder->data))
 				heap_shift_up(queue, i);
 			else
 				heap_shift_down(queue, i);
