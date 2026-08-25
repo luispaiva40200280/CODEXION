@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 20:34:35 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/23 03:48:15 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/24 23:34:39 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	ft_compile(t_data *data, t_coder *coder)
 	if (data->sim_active == 0)
 	{
 		pthread_mutex_unlock(&data->sim_lock);
-		release_dongles(data, coder->left_dongle, coder->right_dongle);
+		release_dongles(coder, data, coder->left_dongle, coder->right_dongle);
 		return ;
 	}
 	coder->last_compile_start = get_time() - data->start_time;
@@ -37,7 +37,7 @@ static void	ft_compile(t_data *data, t_coder *coder)
 	pthread_mutex_lock(&data->sim_lock);
 	coder->nbr_of_compiles++;
 	pthread_mutex_unlock(&data->sim_lock);
-	release_dongles(data, coder->left_dongle, coder->right_dongle);
+	release_dongles(coder, data, coder->left_dongle, coder->right_dongle);
 	wake_threads(data);
 }
 

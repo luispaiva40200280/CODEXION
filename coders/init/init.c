@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/12 02:20:59 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/22 01:38:42 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/24 20:56:44 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static int	ft_init_coders(t_data *data)
 		data->coders[i].request_time = get_time();
 		data->coders[i].nbr_of_compiles = 0;
 		data->coders[i].last_compile_start = 0;
+		data->coders[i].state = WAITING;
 		pthread_cond_init(&data->coders[i].wait, NULL);
 		data->coders[i].data = data;
 	}

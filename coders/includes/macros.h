@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 18:07:12 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/14 01:25:38 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/24 20:58:01 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,8 @@ scheduler to be easear to read the code
 # define EDF 2
 # define FIFO 1
 
-# define WAITING 5
-# define BURN_OUT 0
-# define TAKEN 1
-# define COMPILING 2
-# define DEBUGING 3
-# define REFACTORING 4
+# define WAITING 0
+# define TAKEN_FIRST 1
+# define TAKEN_SECOND 2
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/22 03:06:33 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/22 18:23:27 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/24 18:27:52 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	log_action(t_coder *coder, const char *msg, const char *color)
 	{
 		time = get_time() - coder->data->start_time;
 		printf("%lld %i%s %s %s\n", time, id, color, msg, RESET);
-		pthread_mutex_unlock(&coder->data->write_lock);
 	}
-	else
-		pthread_mutex_unlock(&coder->data->write_lock);
+	pthread_mutex_unlock(&coder->data->write_lock);
 }

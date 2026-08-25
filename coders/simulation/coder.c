@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 21:00:02 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/24 04:01:05 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/25 00:30:53 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "../includes/macros.h"
 #include "../includes/structers.h"
 
-void	release_dongles(t_data *data, t_dongle *left, t_dongle *right)
+void	release_dongles(t_coder *coder, t_data *data, t_dongle *left,
+		t_dongle *right)
 {
 	long long	time;
 
@@ -29,10 +30,12 @@ void	release_dongles(t_data *data, t_dongle *left, t_dongle *right)
 	left->last_release = time;
 	pthread_cond_broadcast(&left->cond);
 	pthread_mutex_unlock(&left->lock);
+	pthread_mutex_lock(&data->queue->queue_lock);
+	coder->state = WAITING;
+	pthread_mutex_unlock(&data->queue->queue_lock);
 }
 
-int	check_dongle_availeble(t_coder *coder, t_dongle *dongle,
-		long long time)
+int	check_dongle_availeble(t_coder *coder, t_dongle *dongle, long long time)
 {
 	if (dongle->is_taken)
 		return (0);
@@ -70,10 +73,13 @@ void	request_single_dongle(t_coder *coder)
 void	ft_wait_or_grab_dongle(t_coder *coder, t_dongle *dongle)
 {
 	struct timespec	time_to_wait;
+	long long		time;
 
 	pthread_mutex_lock(&dongle->lock);
+	time = get_time() - coder->data->start_time;
 	time_to_wait = ft_calc_time_cooldown(dongle, coder->data->start_time);
-	if (dongle->is_taken)
+	if (dongle->is_taken || time
+		- dongle->last_release >= dongle->time_to_cooldown)
 		pthread_cond_wait(&dongle->cond, &dongle->lock);
 	else
 	{

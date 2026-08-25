@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 18:07:05 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/22 18:29:59 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/25 00:32:24 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 
 /*Includes */
 # include "structers.h"
+# include <limits.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include <limits.h>
 
 /*
 parser and initialization of all Data
@@ -48,7 +48,8 @@ Simulation and routine of the coders
 void			*routine(void *arg);
 void			monitor(t_data *data);
 void			wake_threads(t_data *data);
-void			release_dongles(t_data *data, t_dongle *left, t_dongle *right);
+void			release_dongles(t_coder *coder, t_data *data, t_dongle *left,
+					t_dongle *right);
 void			log_action(t_coder *coder, const char *msg, const char *color);
 int				check_dongle_availeble(t_coder *coder, t_dongle *dongle,
 					long long time);
@@ -56,7 +57,7 @@ void			release_one(t_dongle *dongle);
 void			request_single_dongle(t_coder *coder);
 int				ft_request_dongles(t_coder *coder);
 void			ft_wait_or_grab_dongle(t_coder *coder, t_dongle *dongle);
-
+void			set_coder_state(t_coder *coder, int state);
 /*
 Heap queue functions
 */

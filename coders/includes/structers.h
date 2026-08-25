@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 18:07:15 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/18 00:07:17 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/24 20:18:20 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_coder
 {
 	int					id;
 	int					nbr_of_compiles;
+	int					state;
 	long long			last_compile_start;
 	long long			request_time;
 	t_dongle			*right_dongle;

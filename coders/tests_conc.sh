@@ -96,6 +96,12 @@ evaluate_concurrency "conc_zero_cooldown_burst" 4 8 4000 200 10 10 3 0 fifo
 # Test 5: EDF Priority Contention (5 coders -> Max concurrent: 2)
 evaluate_concurrency "conc_edf_starvation_stress" 2 5 3000 200 10 10 4 10 edf
 
+# Test 6: EDF Priority Contention (30 coders -> Max concurrent: 15)
+evaluate_concurrency "conc_edf_starvation_stress" 15 30 3000 20 10 10 4 10 edf
+
+# Test 6: EDF Priority Contention 200 coders -> Max concurrent: 100)
+evaluate_concurrency "conc_edf_starvation_stress" 100 200 300 20 10 10 4 10 edf
+
 echo "----------------------------------------------------"
 echo -e "${GREEN}$PASS_COUNT passed${NC}, ${RED}$FAIL_COUNT failed${NC}"
 
