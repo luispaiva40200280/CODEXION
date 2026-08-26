@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 20:34:35 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/24 23:34:39 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/26 03:35:54 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	ft_debug_refac(t_data *data, t_coder *coder)
 	pthread_mutex_unlock(&coder->data->sim_lock);
 	ft_usleep(data->time_to_debug, data);
 	pthread_mutex_lock(&coder->data->sim_lock);
-	log_action(coder, "is refacturing", MAGENTA);
+	log_action(coder, "is refactoring", MAGENTA);
 	pthread_mutex_unlock(&coder->data->sim_lock);
 	ft_usleep(data->time_to_refactor, data);
 }

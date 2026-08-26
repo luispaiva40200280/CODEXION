@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 19:16:36 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/24 23:38:20 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/26 01:32:11 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,16 @@ void	wake_threads(t_data *data)
 static int	is_coder_burnout(t_data *data, t_coder *coders)
 {
 	int			i;
+	int			nbr_of_comp;
 	long long	time;
 
 	time = get_time() - data->start_time;
 	i = -1;
+	nbr_of_comp = data->number_of_compiles_required;
 	while (++i < data->number_of_coders)
 	{
-		if (time - coders[i].last_compile_start >= data->time_to_burnout)
+		if (coders[i].nbr_of_compiles < nbr_of_comp && time
+			- coders[i].last_compile_start >= data->time_to_burnout)
 		{
 			log_action(&coders[i], "burned out", RED);
 			return (1);

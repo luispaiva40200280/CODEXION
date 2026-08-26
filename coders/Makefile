@@ -4,19 +4,27 @@ SRCS = main.c init/checker.c init/init.c init/parser.c init/queue.c init/queue_u
     simulation/coder.c simulation/ft_time.c simulation/monitor.c simulation/routine.c \
 		simulation/log_action.c simulation/dongle.c init/queue_check_priority.c
 
+OBJS = $(SRCS:.c=.o)
+OUT_DIR = TEST_OUTPUT
+
 all: $(NAME)
 
-$(NAME):
-	@echo "\033[32m Compiling Codexion...\033[0m "
-	@$(CC) includes $(SRCS) -g -o $(NAME)
+$(NAME): $(OBJS)
+	@echo "\033[32mCodexion ready...\033[0m "
+	@$(CC) includes $(OBJS) -g -o $(NAME)
 
-re: 
-	@echo "\033[32m Recompiling Codexion...\033[0m "
-	@$(CC) includes $(SRCS) -g -o $(NAME)
+%.o: %.c
+	@echo "\033[32m Compiling $<...\033[0m "
+	@$(CC) includes -c $< -o $@ -g
+
+re: fclean all
 
 clean:
+	@echo "\033[38;5;203m Removing object files...\033[0m "
+	@rm -f $(OBJS)
 	@echo "\033[38;5;203m Cleaning output test files...\033[0m "
-	@rm -rf $(OUT_DIR) 
+	@rm -rf $(OUT_DIR)
+	
 
 fclean: clean
 	@echo "\033[38;5;203m Removing Codexion...\033[0m "
