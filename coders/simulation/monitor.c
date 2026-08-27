@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 19:16:36 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/26 01:32:11 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/27 02:52:18 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,6 @@
 #include "../includes/macros.h"
 #include "../includes/structers.h"
 
-void	wake_threads(t_data *data)
-{
-	int	i;
-
-	i = -1;
-	while (++i < data->number_of_coders)
-	{
-		pthread_mutex_lock(&data->dongles[i].lock);
-		pthread_cond_broadcast(&data->dongles[i].cond);
-		pthread_mutex_unlock(&data->dongles[i].lock);
-	}
-}
 
 static int	is_coder_burnout(t_data *data, t_coder *coders)
 {
@@ -74,7 +62,6 @@ void	monitor(t_data *data)
 		{
 			data->sim_active = 0;
 			pthread_mutex_unlock(&data->sim_lock);
-			wake_threads(data);
 			return ;
 		}
 		pthread_mutex_unlock(&data->sim_lock);

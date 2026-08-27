@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 18:07:15 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/24 20:18:20 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/27 02:22:45 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ typedef struct s_heap
 	int					size;
 	int					type;
 	struct s_data		*data;
-	pthread_mutex_t		queue_lock;
 }						t_heap;
 
 typedef struct s_data
@@ -57,9 +56,10 @@ typedef struct s_coder
 	t_dongle			*right_dongle;
 	t_dongle			*left_dongle;
 	pthread_t			thread;
-	pthread_cond_t		wait;
 	struct s_data		*data;
 }						t_coder;
+
+
 
 typedef struct s_dongle
 {
@@ -67,8 +67,6 @@ typedef struct s_dongle
 	long long			last_release;
 	int					time_to_cooldown;
 	int					is_taken;
-	pthread_mutex_t		lock;
-	pthread_cond_t		cond;
 }						t_dongle;
 
 #endif

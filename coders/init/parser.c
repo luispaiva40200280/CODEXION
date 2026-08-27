@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/12 00:08:29 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/22 17:25:21 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/27 02:24:22 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,7 @@ int	ft_parser_init(char **av, t_data *data)
 	if (data->scheduler == -1)
 		return (1);
 	data->sim_active = 1;
+	pthread_mutex_init(&data->sim_lock, NULL);
+	pthread_mutex_init(&data->write_lock, NULL);
 	return (ft_check_data(data));
 }

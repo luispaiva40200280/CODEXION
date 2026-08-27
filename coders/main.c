@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 19:50:58 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/22 17:21:57 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/27 02:16:27 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,11 @@
 
 static void	ft_destroy(t_data *data)
 {
-	int	i;
 
 	if (!data)
 		return ;
 	pthread_mutex_destroy(&data->sim_lock);
 	pthread_mutex_destroy(&data->write_lock);
-	if (data->coders && data->dongles)
-	{
-		i = -1;
-		while (++i < data->number_of_coders)
-		{
-			pthread_mutex_destroy(&data->dongles[i].lock);
-			pthread_cond_destroy(&data->dongles[i].cond);
-			pthread_cond_destroy(&data->coders[i].wait);
-		}
-	}
-	if (data->queue)
-		pthread_mutex_destroy(&data->queue->queue_lock);
 }
 
 static void	ft_free_all(t_data *data)

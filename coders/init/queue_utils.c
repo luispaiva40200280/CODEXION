@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/19 01:29:47 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/24 20:42:47 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/27 02:27:34 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_remove_queue(t_heap *queue, t_coder *coder)
 	int	i;
 	int	size;
 
-	pthread_mutex_lock(&queue->queue_lock);
+	pthread_mutex_lock(&coder->data->sim_lock);
 	i = -1;
 	size = queue->size;
 	while (++i < queue->size)
@@ -59,5 +59,5 @@ void	ft_remove_queue(t_heap *queue, t_coder *coder)
 			break ;
 		}
 	}
-	pthread_mutex_unlock(&queue->queue_lock);
+	pthread_mutex_unlock(&coder->data->sim_lock);
 }

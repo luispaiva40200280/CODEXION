@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 20:34:35 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/26 03:35:54 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/27 02:53:48 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 static void	ft_compile(t_data *data, t_coder *coder)
 {
-	pthread_mutex_lock(&data->queue->queue_lock);
+	pthread_mutex_lock(&data->sim_lock);
 	coder->request_time = get_time() - data->start_time;
 	ft_heappush(data, coder);
-	pthread_mutex_unlock(&data->queue->queue_lock);
+	pthread_mutex_unlock(&data->sim_lock);
 	if (ft_request_dongles(coder))
 		return ;
 	ft_remove_queue(data->queue, coder);
@@ -27,7 +27,7 @@ static void	ft_compile(t_data *data, t_coder *coder)
 	if (data->sim_active == 0)
 	{
 		pthread_mutex_unlock(&data->sim_lock);
-		release_dongles(coder, data, coder->left_dongle, coder->right_dongle);
+		release_dongles(data, coder->left_dongle, coder->right_dongle);
 		return ;
 	}
 	coder->last_compile_start = get_time() - data->start_time;
@@ -37,8 +37,7 @@ static void	ft_compile(t_data *data, t_coder *coder)
 	pthread_mutex_lock(&data->sim_lock);
 	coder->nbr_of_compiles++;
 	pthread_mutex_unlock(&data->sim_lock);
-	release_dongles(coder, data, coder->left_dongle, coder->right_dongle);
-	wake_threads(data);
+	release_dongles(data, coder->left_dongle, coder->right_dongle);
 }
 
 static void	ft_debug_refac(t_data *data, t_coder *coder)

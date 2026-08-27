@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/12 02:20:59 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/24 20:56:44 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/27 02:15:20 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static int	ft_init_queue(t_data *data)
 	data->queue->size = 0;
 	data->queue->type = data->scheduler;
 	data->queue->data = data;
-	pthread_mutex_init(&data->queue->queue_lock, NULL);
 	return (0);
 }
 
@@ -50,7 +49,6 @@ static int	ft_init_coders(t_data *data)
 		data->coders[i].nbr_of_compiles = 0;
 		data->coders[i].last_compile_start = 0;
 		data->coders[i].state = WAITING;
-		pthread_cond_init(&data->coders[i].wait, NULL);
 		data->coders[i].data = data;
 	}
 	return (0);
@@ -70,8 +68,6 @@ static int	ft_init_dongles(t_data *data)
 		data->dongles[i].id = i + 1;
 		data->dongles[i].last_release = -data->dongle_cooldown;
 		data->dongles[i].time_to_cooldown = data->dongle_cooldown;
-		pthread_mutex_init(&data->dongles[i].lock, NULL);
-		pthread_cond_init(&data->dongles[i].cond, NULL);
 	}
 	return (0);
 }

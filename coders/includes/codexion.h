@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 18:07:05 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/25 00:32:24 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/27 02:53:13 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ Simulation and routine of the coders
 void			*routine(void *arg);
 void			monitor(t_data *data);
 void			wake_threads(t_data *data);
-void			release_dongles(t_coder *coder, t_data *data, t_dongle *left,
+void			release_dongles(t_data *data, t_dongle *left,
 					t_dongle *right);
 void			log_action(t_coder *coder, const char *msg, const char *color);
 int				check_dongle_availeble(t_coder *coder, t_dongle *dongle,

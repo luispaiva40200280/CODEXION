@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/24 01:02:42 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/26 03:38:45 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/27 02:26:19 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	check_global_priority(t_coder *coder, t_dongle *dongle)
 	t_coder	*candidate;
 	int		i;
 
-	pthread_mutex_lock(&coder->data->queue->queue_lock);
 	i = -1;
 	while (++i < coder->data->queue->size)
 	{
@@ -39,12 +38,8 @@ int	check_global_priority(t_coder *coder, t_dongle *dongle)
 		if (is_threat(coder, candidate, dongle))
 		{
 			if (compare_priority(candidate, coder, coder->data))
-			{
-				pthread_mutex_unlock(&coder->data->queue->queue_lock);
 				return (0);
-			}
 		}
 	}
-	pthread_mutex_unlock(&coder->data->queue->queue_lock);
 	return (1);
 }
