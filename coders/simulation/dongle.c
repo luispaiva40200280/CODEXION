@@ -6,7 +6,7 @@
 /*   By: lpaiva <lpaiva@student.42porto.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/23 15:12:40 by lpaiva            #+#    #+#             */
-/*   Updated: 2026/08/27 02:50:41 by lpaiva           ###   ########.fr       */
+/*   Updated: 2026/08/27 03:06:45 by lpaiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_request_dongles(t_coder *coder)
 		pthread_mutex_lock(&coder->data->sim_lock);
 		if (!coder->data->sim_active)
 			return (pthread_mutex_unlock(&coder->data->sim_lock), 1);
-		if (check_global_priority(coder, first) || check_global_priority(coder, second))
+		if (!check_global_priority(coder, first) || !check_global_priority(coder, second))
 		{
 			pthread_mutex_unlock(&coder->data->sim_lock);
 			usleep(500);
